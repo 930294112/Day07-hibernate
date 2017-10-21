@@ -1,0 +1,20 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.lanou.domain.IDCard">
+        <id name="id">
+            <generator class="native"/>
+        </id>
+
+        <property name="number"/>
+        <!--基于外键的1对1的关系
+            不维护外键的一方需要定义 property-ref属性的引用,即外键-->
+        <one-to-one name="person"
+                    class="com.lanou.domain.Person"
+                    property-ref="idCard"
+                    cascade="all"/>
+
+
+    </class>
+</hibernate-mapping>

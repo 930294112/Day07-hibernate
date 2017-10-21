@@ -1,0 +1,32 @@
+<!--在hibernate-core-->
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.lanou.domain.Order" table="Orders">
+        <!--主键生成策略.用本地策略-->
+        <id name="id">
+            <generator class="native"/>
+        </id>
+        <!--订单编号-->
+        <property name="orderNumber"/>
+        <!--订单价格-->
+        <property name="price"/>
+        <!--订单开始时间-->
+        <property name="startDate"/>
+
+        <!--单向n-1
+            在n的一方定义1,即n可以找到1;但是1找不到n;
+            此处n是指order订单;1是指customer用户
+            many-to-one:多对一标签
+            name:n方中的1属性名称
+            Class:n方中的1属类的全路径
+            column:在n的对应的数据表中1的列名,即外键名
+            not-null:该属性不能为空,可选-->
+        <many-to-one name="customer"
+                     class="com.lanou.domain.Customer"
+                     not-null="true"
+                     column="customer_id"
+                     cascade="all"/>
+    </class>
+</hibernate-mapping>

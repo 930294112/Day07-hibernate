@@ -1,0 +1,43 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.lanou.domain.Customer">
+        <id name="id">
+            <generator class="native"/>
+        </id>
+        <!--用户名称-->
+        <property name="name"/>
+        <!--登录名称-->
+        <property name="loginName"/>
+        <!--登录密码-->
+        <property name="password"/>
+        <!--性别-->
+        <property name="gender"/>
+        <!--双向1-n,在n的一方能找到对应的1(用户),也能在1(用户)找到对应的n的集合(订单集合)
+            在n的一方定义many-to-one,在1的一方定义set
+            set:在1的一方定义n的集合
+            name:在1的一方对应的n的属性集合的名称
+            table:n的一方对应的数据库表面,参见n的映射文件中table的配置
+            inverse:配置1与n的维护关系由谁控制,false代表主动方,true:代表被动方
+                    通常在n的一方配置为false即主动维护二者之间的关系
+                    1.inverse设置当前属性是主动方还是被动方,如果设置为主动方,删除用户的时候
+                    不会主动删除订单表中的数据,即使设置了级联关系为all
+                    2.如果设置为被动方,删除用户时,可以通过级联关系将订单表中对应的数据删除
+
+            cascade:级联属性,可以在<set>,<many-to-one>,<one-to-many>标签中使用;
+                 代表操作当前对象时是否会级联其他对象
+            all:当用session的save,update,delete,saveOrUpdate等级联到其他对象
+            save-update:当用session的save,update,delete,saveOrUpdate会级联到其他对象
+            delete:当用session的delete删除的时候会级联到其他对象
+            key:1与关联的外键名称,参见n的一方中many-to-one中定义的column
+            one-to-many:在1的一方中定义的n的路径-->
+    <set name="orders"
+         table="Orders"
+         inverse="true"
+         cascade="all">
+        <key column="customer_id"></key>
+        <one-to-many class="com.lanou.domain.Order"/>
+    </set>
+    </class>
+</hibernate-mapping>
